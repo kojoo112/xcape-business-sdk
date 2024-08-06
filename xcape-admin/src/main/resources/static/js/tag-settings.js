@@ -404,7 +404,11 @@ const addPadlock = (type, answer) => {
             const padlockCard = document.querySelector('#padlockCard').innerHTML;
 
             const answerCardDom = interpolate(padlockCard, {
-                type, answer, typeKo: convertPadlockTypeToKorean(type), targetTagId, targetTagName
+                type,
+                answer,
+                typeKo: convertPadlockTypeToKorean(type),
+                targetTagId,
+                targetTagName
             });
 
             document.querySelector('#tagList').insertAdjacentHTML('beforeend', answerCardDom);
@@ -415,7 +419,7 @@ const addPadlock = (type, answer) => {
 document.querySelector('#answerAddButton').addEventListener('click', () => {
     if (checkTagListDom()) {
         const answer = document.querySelector('#answer').value;
-        addPadlock('ANSWER', answer);
+        addPadlock(ANSWER, answer);
     } else {
         alert('태그를 선택해주세요.');
     }
