@@ -289,4 +289,10 @@ public class AdminRestController {
     public void migrateViewList(@RequestBody List<ViewDto> viewDtoList) {
         migrateService.migrateViewData(viewDtoList);
     }
+
+	@PostMapping("/tags")
+	public Response<Void> createTag(@RequestBody TagDto tagDto) {
+		tagService.createTag(tagDto);
+		return Response.success();
+	}
 }

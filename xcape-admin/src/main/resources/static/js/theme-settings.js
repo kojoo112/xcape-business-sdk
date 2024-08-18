@@ -20,13 +20,16 @@ const getThemeInformation = (e) => {
             document.querySelector('#maxParticipantCount').value = theme.maxParticipantCount;
             document.querySelector('#genre').value = theme.genre;
             document.querySelector('#point').value = theme.point;
-            document.querySelector('input[name="hasXKit"]').value = theme.hasXKit;
-            document.querySelector('input[name="isCrimeScene"]').value = theme.isCrimeScene;
             document.querySelector('#mainImagePreview').src = theme.mainImagePath || '/images/noPhoto.jpg';
             document.querySelector('#bgImagePreview').src = theme.bgImagePath || '/images/noPhoto.jpg';
             document.querySelector('#youtubeLink').value = theme.youtubeLink;
             document.querySelector('#colorCode').value = theme.colorCode || '#242424';
             document.querySelector('#runningTime').value = theme.runningTime;
+
+            document.querySelector(`input[name="hasXKit"][value="${theme.hasXKit}"]`).checked = true;
+            document.querySelector(`input[name="isCrimeScene"][value="${theme.isCrimeScene}"]`).checked = true;
+            document.querySelector(`input[name="useYn"][value="${theme.useYn}"]`).checked = true;
+
             bindAbility(theme.abilityList);
             // bindTimetableInputs(theme.timetable);
         }
