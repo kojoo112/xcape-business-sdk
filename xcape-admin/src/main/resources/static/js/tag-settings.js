@@ -3,23 +3,29 @@ let tagList = null;
 let viewList = null;
 let hintList = null;
 
-axios.get('/storage').then(({data}) => {
-    if (data.resultCode === SUCCESS) {
-        storageList = data.result;
-    }
-});
+const getStorageList = () => {
+    axios.get('/storage').then(({data}) => {
+        if (data.resultCode === SUCCESS) {
+            storageList = data.result;
+        }
+    });
+}
 
-axios.get('/tags').then(({data}) => {
-    if (data.resultCode === SUCCESS) {
-        tagList = data.result;
-    }
-});
+const getTagList = () => {
+    axios.get('/tags').then(({data}) => {
+        if (data.resultCode === SUCCESS) {
+            tagList = data.result;
+        }
+    });
+}
 
-axios.get('/hints').then(({data}) => {
-    if (data.resultCode === SUCCESS) {
-        hintList = data.result;
-    }
-});
+const getHintList = () => {
+    axios.get('/hints').then(({data}) => {
+        if (data.resultCode === SUCCESS) {
+            hintList = data.result;
+        }
+    });
+}
 
 const getViewList = () => {
     axios.get('/views').then(({data}) => {
@@ -28,7 +34,12 @@ const getViewList = () => {
         }
     });
 }
-
+/**
+ *  초기 데이터 불러오기
+ */
+getStorageList();
+getHintList();
+getTagList();
 getViewList();
 
 const clearTagList = () => {
@@ -501,5 +512,31 @@ document.querySelector('#saveTagButton').addEventListener('click', () => {
         });
     } else {
         alert('태그를 선택해주세요.');
+    }
+});
+
+document.querySelector('#tagCreateButton').addEventListener('click', () => {
+    const createTagForm = document.querySelector('form[name="createTagForm"]');
+    const merchantId = createTagForm.merchantId.value;
+    const themeId = createTagForm.themeId.value;
+    const name = createTagForm.tagName.value;
+
+    if (merchantId !== '' && themeId !== '' && name !== '') {
+        const param = {
+            merchantId,
+            themeId,
+            name
+        }
+        axios.post('/tags', param).then((res) => {
+            const {resultCode, resultMessage} = res.data;
+            if (resultCode === SUCCESS) {
+                alert('태그가 생성되었습니다.');
+                getTagList();
+            } else {
+                alert(`실패 : ${resultMessage}`);
+            }
+        });
+    } else {
+        alert('가맹점, 테마, 태그이름을 확인해주세요.');
     }
 });
