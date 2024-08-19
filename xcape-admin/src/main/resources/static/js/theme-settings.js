@@ -476,72 +476,46 @@ document.querySelector('#timetableSaveButton').addEventListener('click', () => {
     }
 });
 
-// document.querySelector('#jsonPublishButton').addEventListener('click', () => {
-//     axios.get('/merchants')
-//         .then(res => {
-//             const {resultCode, result} = res.data;
-//             if (resultCode === SUCCESS) {
-//                 const merchantList = result;
-//                 const themeList = [];
-//                 merchantList.forEach(merchant => {
-//                     merchant.themeList.forEach(theme => {
-//                         themeList.push(theme);
-//                     });
-//                     delete merchant.themeList;
-//                     delete merchant.bannerList;
-//                 });
-//
-//                 let form = new FormData();
-//                 form.append('file', new File([JSON.stringify(merchantList)], JSON_FILE_NAME));
-//                 form.append('type', JSON_FILE_TYPE.MERCHANT);
-//
-//                 let merchantPath;
-//                 let themePath;
-//                 axios.putForm('/json', form)
-//                     .then(res => {
-//                         merchantPath = res.data;
-//                     })
-//                     .then(() => {
-//                         form = new FormData();
-//                         form.append('file', new File([JSON.stringify(themeList)], JSON_FILE_NAME));
-//                         form.append('type', JSON_FILE_TYPE.THEME);
-//                         axios.putForm('/json', form)
-//                             .then(res => {
-//                                 themePath = res.data;
-//                                 if (merchantPath && themePath) {
-//                                     alert(`지점 정보 주소: ${merchantPath}\n테마 정보 주소: ${themePath}\n 발행 완료되었습니다.`);
-//                                     return;
-//                                 }
-//                                 alert('발행에 실패했습니다.')
-//                             });
-//                     });
-//             }
-//
-//         });
-// });
+document.querySelector('#jsonPublishButton').addEventListener('click', async () => {
+    try {
+        const responses = await axios.all([
+            axios.get('/themes'),
+            axios.get('/abilities')
+        ]);
 
-document.querySelector('#jsonPublishButton').addEventListener('click', function () {
-    axios.get('/themes')
-        .then(res => {
-            const {resultCode, result} = res.data;
-            if (resultCode === SUCCESS) {
-                const themeList = result;
+        const [themeResponse, abilityResponse] = responses;
 
-                let form = new FormData();
-                form.append('file', new File([JSON.stringify(themeList)], JSON_FILE_NAME));
-                form.append('type', JSON_FILE_TYPE.THEME);
+        const {resultCode: themeResultCode, result: themeResult} = themeResponse.data;
+        const {resultCode: abilityResultCode, result: abilityResult} = abilityResponse.data;
 
-                axios.put('/json', form)
-                    .then((res) => {
-                        const themePath = res.data;
-                        if (themePath) {
-                            alert(`테마 정보 주소: ${themePath}\n 발행 완료되었습니다.`);
-                            return;
-                        }
-                        alert('발행에 실패했습니다.');
-                    });
-            }
-        });
+        if (themeResultCode !== SUCCESS || abilityResultCode !== SUCCESS) {
+            throw new Error('조회 실패');
+        }
+
+        const themeForm = new FormData();
+        themeForm.append('file', new File([JSON.stringify(themeResult)], JSON_FILE_NAME));
+        themeForm.append('type', JSON_FILE_TYPE.THEME);
+
+        const themeUploadResponse = await axios.put('/json', themeForm);
+
+
+        const abilityForm = new FormData();
+        abilityForm.append('file', new File([JSON.stringify(abilityResult)], JSON_FILE_NAME));
+        abilityForm.append('type', JSON_FILE_TYPE.ABILITY);
+
+        const abilityUploadResponse = await axios.put('/json', abilityForm);
+
+        const tagPath = themeUploadResponse.data;
+        const viewPath = abilityUploadResponse.data;
+
+        if (!tagPath || !viewPath) {
+            throw new Error('파일 업로드 실패');
+        }
+        alert(`태그 : ${tagPath} 및 뷰 : ${viewPath}\n 발행이 완료되었습니다.`);
+
+    } catch (error) {
+        alert('발행에 실패했습니다.');
+    }
 });
 
 const removeRow = element => {

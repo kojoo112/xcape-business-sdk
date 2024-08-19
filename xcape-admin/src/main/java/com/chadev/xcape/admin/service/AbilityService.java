@@ -19,6 +19,10 @@ public class AbilityService {
     private final AbilityRepository abilityRepository;
     private final DtoConverter dtoConverter;
 
+    public List<AbilityDto> getAllAbilityList() {
+        return abilityRepository.findAll().stream().map(dtoConverter::toAbilityDto).toList();
+    }
+
     public List<AbilityDto> getAbilityListByThemeId(Long themeId) {
         return abilityRepository.findAbilityListByThemeId(themeId).stream().map(dtoConverter::toAbilityDto).toList();
     }
