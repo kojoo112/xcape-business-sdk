@@ -35,6 +35,7 @@ public class AdminRestController {
     private final MigrateService migrateService;
     private final HintService hintService;
 	private final ViewService viewService;
+	private final AbilityService abilityService;
 
     @GetMapping("/merchants")
     public Response<List<MerchantDto>> getMerchantList() {
@@ -300,5 +301,11 @@ public class AdminRestController {
 	public Response<Void> createEmptyReservations(Long themeId, LocalDate date) {
 		reservationService.createEmptyReservationByThemeIdAndDate(themeId, date);
 		return Response.success();
+	}
+
+	@GetMapping("/abilities")
+	public Response<List<AbilityDto>> getAllAbilities() {
+		List<AbilityDto> abilityList = abilityService.getAllAbilityList();
+		return Response.success(abilityList);
 	}
 }

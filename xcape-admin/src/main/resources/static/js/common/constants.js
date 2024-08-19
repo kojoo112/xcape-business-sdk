@@ -15,7 +15,8 @@ const JSON_FILE_TYPE = {
     BANNER: 'banner',
     HINT: 'hint',
     TAG: 'tag',
-    VIEW : 'view'
+    VIEW : 'view',
+    ABILITY: 'ability'
 }
 const FAKE_RESERVATION = (reservationId) => {
     return {
