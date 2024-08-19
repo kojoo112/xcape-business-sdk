@@ -4,19 +4,13 @@ import com.chadev.xcape.core.domain.converter.DtoConverter;
 import com.chadev.xcape.core.domain.dto.ReservationDto;
 import com.chadev.xcape.core.domain.dto.ThemeDto;
 import com.chadev.xcape.core.domain.dto.history.ReservationHistoryDto;
-import com.chadev.xcape.core.domain.entity.Merchant;
-import com.chadev.xcape.core.domain.entity.Price;
-import com.chadev.xcape.core.domain.entity.Reservation;
-import com.chadev.xcape.core.domain.entity.Theme;
+import com.chadev.xcape.core.domain.entity.*;
 import com.chadev.xcape.core.domain.entity.history.ReservationHistory;
 import com.chadev.xcape.core.domain.request.ReservationRequest;
 import com.chadev.xcape.core.domain.type.RoomType;
 import com.chadev.xcape.core.exception.ApiException;
 import com.chadev.xcape.core.exception.XcapeException;
-import com.chadev.xcape.core.repository.PriceRepository;
-import com.chadev.xcape.core.repository.ReservationHistoryRepository;
-import com.chadev.xcape.core.repository.ReservationRepository;
-import com.chadev.xcape.core.repository.ThemeRepository;
+import com.chadev.xcape.core.repository.*;
 import com.chadev.xcape.core.service.notification.NotificationTemplateEnum;
 import com.chadev.xcape.core.service.notification.kakao.KakaoTalkNotification;
 import com.chadev.xcape.core.service.notification.kakao.KakaoTalkResponse;
@@ -31,6 +25,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -49,6 +44,7 @@ public class ReservationService {
     private final ThemeRepository themeRepository;
     private final ReservationHistoryRepository reservationHistoryRepository;
     private final DtoConverter dtoConverter;
+    private final TimetableRepository timetableRepository;
 
     private final KakaoTalkNotification kakaoTalkNotification;
     private final SmsNotification smsNotification;
@@ -238,5 +234,37 @@ public class ReservationService {
                 throw new ApiException(kakaoTalkResponse.getHeader().getResultCode(), kakaoTalkResponse.getHeader().getResultMessage());
             }
         }
+    }
+
+    @Transactional
+    public void createEmptyReservationByThemeIdAndDate(Long themeId, LocalDate date) {
+        List<Timetable> timetableListByThemeId = timetableRepository.findTimetableListByThemeId(themeId);
+
+        Theme theme = themeRepository.findById(themeId).orElseThrow(XcapeException::NOT_EXISTENT_THEME);
+
+        List<Reservation> reservationListByThemeIdAndDate = reservationRepository.findByThemeIdAndDateOrderBySeq(themeId, date);
+        if (!reservationListByThemeIdAndDate.isEmpty()) {
+            throw XcapeException.ALREADY_RESERVATION();
+        }
+
+        List<Reservation> reservationList = new ArrayList<>();
+
+        timetableListByThemeId.forEach(timetable -> {
+            String timetableId = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + UUID.randomUUID();
+            Reservation newReservation = Reservation.builder()
+                    .merchantId(theme.getMerchant().getId())
+                    .merchantName(theme.getMerchant().getName())
+                    .id(timetableId)
+                    .date(date)
+                    .time(timetable.getTime())
+                    .themeId(themeId)
+                    .themeName(theme.getNameKo())
+                    .isReserved(false)
+                    .build();
+
+            reservationList.add(newReservation);
+        });
+
+        reservationRepository.saveAll(reservationList);
     }
 }
