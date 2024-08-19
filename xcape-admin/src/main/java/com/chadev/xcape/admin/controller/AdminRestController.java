@@ -295,4 +295,10 @@ public class AdminRestController {
 		tagService.createTag(tagDto);
 		return Response.success();
 	}
+
+	@PostMapping("/reservations")
+	public Response<Void> createEmptyReservations(Long themeId, LocalDate date) {
+		reservationService.createEmptyReservationByThemeIdAndDate(themeId, date);
+		return Response.success();
+	}
 }

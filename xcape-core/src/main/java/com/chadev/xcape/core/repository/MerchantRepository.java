@@ -1,6 +1,5 @@
 package com.chadev.xcape.core.repository;
 
-import com.chadev.xcape.core.domain.dto.MerchantDto;
 import com.chadev.xcape.core.domain.entity.Merchant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
