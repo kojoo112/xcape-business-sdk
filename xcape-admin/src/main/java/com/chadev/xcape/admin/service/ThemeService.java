@@ -88,7 +88,7 @@ public class ThemeService {
 		if (requestDto.getMainImagePath() != null) {
 			updatedTheme.setMainImagePath(requestDto.getMainImagePath());
 		}
-		if (requestDto.getMainImagePath() != null) {
+		if (requestDto.getBgImagePath() != null) {
 			updatedTheme.setBgImagePath(requestDto.getBgImagePath());
 		}
 		updatedTheme.update(requestDto);
