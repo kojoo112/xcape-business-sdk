@@ -88,37 +88,6 @@ document.querySelector('#saveThemeButton').addEventListener('click', () => {
     form.classList.add('was-validated');
 });
 
-// 각 select 태그에 0 ~ 5 까지 만듦
-let abilityOptions = '';
-for (let i = 0; i <= 5; i++) {
-    if (i === 3) {
-        abilityOptions += `<option value="${i}" selected>${i}</option>`;
-    } else {
-        abilityOptions += `<option value="${i}">${i}</option>`;
-    }
-}
-
-document.querySelector('#difficulty').innerHTML = abilityOptions;
-
-document.querySelectorAll('.form-select.ability').forEach((select) => {
-    select.innerHTML = abilityOptions;
-});
-
-let hourOptions = '<option value="00" selected>00</option>';
-for (let i = 1; i <= 23; i++) {
-    hourOptions += `<option value="${formattingTime(i)}">${formattingTime(i)}</option>`;
-}
-
-// document.querySelector('.form-select.hour').innerHTML = hourOptions;
-
-let minuteOptions = '<option value="00" selected>00</option>';
-for (let i = 0; i < 12; i++) {
-    let everyFiveMinutes = i * 5;
-    minuteOptions += `<option value="${formattingTime(everyFiveMinutes)}">${formattingTime(everyFiveMinutes)}</option>`
-}
-
-// document.querySelector('.form-select.minute').innerHTML = minuteOptions;
-
 // 테마 클릭 이벤트
 const addClickEventToAccordion = () => {
     const listGroup = document.querySelectorAll('.list-group button');
@@ -151,7 +120,7 @@ const createPriceInputs = () => {
     priceArea.insertAdjacentHTML('beforeend', priceInput);
 
     document.querySelector(`#${priceAreaId} .price-input`).addEventListener('change', formattingNumber);
-    document.querySelector(`#${priceAreaId} .price-input`).addEventListener('input', onlyNumber);
+    document.querySelector(`#${priceAreaId} .price-i=nput`).addEventListener('input', onlyNumber);
     document.querySelector(`#${priceAreaId} .delete-price-button`).addEventListener('click', () => deletePrice(`${priceAreaId}`));
 }
 
