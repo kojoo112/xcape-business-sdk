@@ -84,7 +84,14 @@
                         <div class="row m-0 mb-2">
                             <div class="col p-0">
                                 <div class="form-floating">
-                                    <select class="form-select" id="difficulty" name="difficulty"></select>
+                                    <select class="form-select" id="difficulty" name="difficulty">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
                                     <label for="difficulty">난이도</label>
                                 </div>
                             </div>
@@ -158,7 +165,7 @@
                             </div>
                             <div class="col pe-0">
                                 <label for="runningTime">플레이타임</label>
-                                <input class="form-control form-control-color" id="runningTime" name="runningTime" />
+                                <input class="form-control" id="runningTime" name="runningTime" type="number" />
                             </div>
                         </div>
                         <div class="row mx-0">
@@ -279,7 +286,7 @@
                     </select>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body py-0">
+                <div class="modal-body">
                     <div class="row">
                         <div class="col">
                             <div>
@@ -315,7 +322,14 @@
                                     <div class="row m-0 mb-2">
                                         <div class="col p-0">
                                             <div class="form-floating">
-                                                <select id="createDifficulty" class="form-select" name="difficulty"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+                                                <select id="createDifficulty" class="form-select" name="difficulty">
+                                                    <option value="0">0</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                </select>
                                                 <label for="createDifficulty">난이도</label>
                                             </div>
                                         </div>
@@ -334,8 +348,6 @@
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
                                                     </select>
                                                     <label for="createTeamwork">팀워크</label>
                                                 </div>
@@ -348,8 +360,6 @@
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
                                                     </select>
                                                     <label for="createReasoning">추리력</label>
                                                 </div>
@@ -362,8 +372,6 @@
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
                                                     </select>
                                                     <label for="createObservation">관찰력</label>
                                                 </div>
@@ -376,8 +384,6 @@
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
-                                                        <option value="4">4</option>
-                                                        <option value="5">5</option>
                                                     </select>
                                                     <label for="createActivity">활동성</label>
                                                 </div>
@@ -399,11 +405,11 @@
                                             <label for="createGenre"><span class="requiredMark">*</span>장르</label>
                                         </div>
                                         <div class="col ps-0 form-floating">
-                                            <input type="color" class="form-control form-control-color" id="createColorCode" name="colorCode">
+                                            <input type="color" class="form-control" id="createColorCode" name="colorCode">
                                             <label for="createColorCode"><span class="requiredMark">*</span>색상</label>
                                         </div>
                                         <div class="col ps-0 form-floating">
-                                            <input class="form-control" id="createRunningTime" name="runningTime" type="text" required>
+                                            <input class="form-control" id="createRunningTime" name="runningTime" type="number" required>
                                             <label for="createRunningTime"><span class="requiredMark">*</span>플레이타임</label>
                                         </div>
                                     </div>
@@ -558,8 +564,6 @@
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
             </select>
             <label for="{abilityCode}">{abilityName}</label>
         </div>
