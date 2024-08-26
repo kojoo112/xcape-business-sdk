@@ -5,8 +5,9 @@
 <nav th:replace="~{fragments :: navbar (bannerSettings)}"></nav>
 <div class="container">
   <div class="row mt-1">
-    <div class="col-1">
-      <button class="btn btn-success" id="bannerPublishButton">발행</button>
+    <div class="col text-end">
+      <span class="fs-6 text-secondary">* 변경사항을 저장 후 발행해주세요.</span>
+      <button id="bannerPublishButton" type="button" class="btn btn-success">발행</button>
     </div>
   </div>
   <div class="row mt-1 justify-content-between">

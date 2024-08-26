@@ -39,4 +39,5 @@ public class XcapeException extends RuntimeException {
     public static XcapeException NOT_EXISTENT_HINT() {return new XcapeException(ErrorCode.NOT_EXISTENT_HINT);}
 
     public static XcapeException NOT_EXISTENT_VIEW_LIST() {return new XcapeException(ErrorCode.NOT_EXISTENT_VIEW_LIST);}
+    public static XcapeException NOT_EXISTENT_STORAGE() {return new XcapeException(ErrorCode.NOT_EXISTENT_STORAGE);}
 }

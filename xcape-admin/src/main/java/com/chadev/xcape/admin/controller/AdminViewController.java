@@ -1,12 +1,7 @@
 package com.chadev.xcape.admin.controller;
 
-import com.chadev.xcape.admin.service.HintService;
-import com.chadev.xcape.admin.service.MerchantService;
-import com.chadev.xcape.admin.service.ReservationService;
-import com.chadev.xcape.admin.service.SchedulerService;
-import com.chadev.xcape.admin.service.TagService;
+import com.chadev.xcape.admin.service.*;
 import com.chadev.xcape.core.domain.dto.AccountDto;
-import com.chadev.xcape.core.domain.dto.HintDto;
 import com.chadev.xcape.core.domain.dto.MerchantDto;
 import com.chadev.xcape.core.domain.dto.ThemeDto;
 import com.chadev.xcape.core.domain.type.AccountType;
@@ -19,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +133,7 @@ public class AdminViewController {
         return "mock-reservations";
     }
 
-    @GetMapping("/file-upload")
+    @GetMapping("/file-settings")
     public String fileUpload(Authentication authentication, Model model) {
         AccountDto account = (AccountDto) authentication.getPrincipal();
         List<MerchantDto> merchantList = new ArrayList<>();
@@ -149,7 +143,7 @@ public class AdminViewController {
             merchantList.add(merchantService.getMerchantWithThemeList(account.getMerchantId()));
         }
         model.addAttribute("merchantList", merchantList);
-        return "file-upload";
+        return "file-settings";
     }
 
     @GetMapping("/tag-settings")
