@@ -308,4 +308,10 @@ public class AdminRestController {
 		List<AbilityDto> abilityList = abilityService.getAllAbilityList();
 		return Response.success(abilityList);
 	}
+
+	@DeleteMapping("/storage/{storageId}")
+	public Response<Void> getStorageList(@PathVariable Long storageId) {
+		storageService.deleteStorage(storageId);
+		return Response.success();
+	}
 }

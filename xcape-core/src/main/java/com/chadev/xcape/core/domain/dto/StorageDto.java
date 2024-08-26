@@ -26,6 +26,9 @@ public class StorageDto {
 
     private String storedFilename;
 
+    private Boolean isUsed;
+
+
     public StorageDto(Storage entity) {
         this.id = entity.getId();
         this.merchantId = entity.getMerchantId();
@@ -34,5 +37,6 @@ public class StorageDto {
         this.url = entity.getUrl();
         this.filename = entity.getFilename();
         this.storedFilename = entity.getStoredFilename();
+        this.isUsed = entity.getIsUsed();
     }
 }

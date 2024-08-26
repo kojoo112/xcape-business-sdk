@@ -6,7 +6,7 @@ let hintList = null;
 const getStorageList = () => {
     axios.get('/storage').then(({data}) => {
         if (data.resultCode === SUCCESS) {
-            storageList = data.result;
+            storageList = data.result.filter((storage) => storage.isUsed);
         }
     });
 }

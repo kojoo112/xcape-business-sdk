@@ -39,6 +39,9 @@ public class Storage {
     @Column(length = 50)
     private String storedFilename;
 
+    @Column
+    private Boolean isUsed;
+
     public Storage (StorageDto storageDto) {
         this.merchantId = storageDto.getMerchantId();
         this.themeId = storageDto.getThemeId();
@@ -46,5 +49,6 @@ public class Storage {
         this.url = storageDto.getUrl();
         this.filename = storageDto.getFilename();
         this.storedFilename = storageDto.getStoredFilename();
+        this.isUsed = storageDto.getIsUsed();
     }
 }

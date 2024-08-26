@@ -79,6 +79,7 @@ public class StorageService {
                 .url(makeFileUrl(storedFilename))
                 .merchantId(fileUploadDto.getMerchantId())
                 .themeId(fileUploadDto.getThemeId())
+                .isUsed(true)
                 .build();
 
         storageRepository.save(storage);
@@ -86,5 +87,11 @@ public class StorageService {
 
     public List<StorageDto> getStorageList() {
         return storageRepository.findAll().stream().map(dtoConverter::toStorageDto).toList();
+    }
+
+    @Transactional
+    public void deleteStorage(Long storageId) {
+        Storage storage = storageRepository.findById(storageId).orElseThrow(XcapeException::NOT_EXISTENT_STORAGE);
+        storage.setIsUsed(false);
     }
 }
