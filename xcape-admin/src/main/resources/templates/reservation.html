@@ -18,22 +18,26 @@
     </h2>
 
     <div class="text-white" id="reservationContainer">
-        <div class="d-flex justify-content-center align-items-center mb-4">
-            <label class="mr-4" for="datePicker">날짜
-                <input type="text" id="datePicker" class="border-0 text-white bg-black form-control datepicker" onchange="datePickerSet(this)">
-            </label>
-            <div class="form-check form-switch d-flex mx-4 mt-4">
+        <div class="d-flex justify-content-center align-items-center mb-4 gap-4">
+            <div>
+                <label class="mr-4" for="datePicker">날짜
+                    <input type="text" id="datePicker" class="border-0 text-white bg-black form-control datepicker"
+                           onchange="datePickerSet(this)">
+                </label>
+            </div>
+            <div class="form-check form-switch">
                 <label class="form-check-label" for="batchSelectSwitch">일괄선택</label>
                 <input class="form-check-input" type="checkbox" role="switch" id="batchSelectSwitch" onchange="changeBatchSwitch(this)">
             </div>
 
-            <label for="unreservedTime" class="form-label mr-3 d-none">자동해제시간
-                <div class="d-flex align-items-center">
-                    <input type="number" id="unreservedTime" class="form-text suffix-unreserved-time fs-5 m-0" style="width: 70px;">
-                    <span class="input-group-text fs-5 p-1" style="height: 36px;">분전</span>
-                </div>
-            </label>
-            <button type="button" class="btn btn-outline-light mt-4 d-none" onclick="bookFake(this)" id="bookFakeBtn">가예약</button>
+            <div id="unreservedTimeArea" class="d-flex align-items-center d-none">
+                <label for="unreservedTime" class="form-label mr-3">자동해제시간</label>
+                <input type="number" id="unreservedTime" class="form-text suffix-unreserved-time fs-5 m-0"
+                       style="width: 70px;">
+                <span class="input-group-text fs-5 p-1" style="height: 36px;">분전</span>
+            </div>
+            <button type="button" class="btn btn-outline-light d-none" onclick="bookFake(this)" id="bookFakeBtn">가예약
+            </button>
         </div>
         <div class="row justify-content-center" id="reservationList" th:value="${merchant.getId()}">
             <div class="col-auto p-1" id="numberArea">
