@@ -5,8 +5,8 @@ spring:
 cloud:
   aws:
     credential:
-      accessKey: ENC(HxN4BBZgdlFjQm3aYeWsKLTlJX+GYMTH26xzHHnE1gg=)
-      secretKey: ENC(bI6KJx2SEqxsWv5Y8MSRsyJyfGofpNitFfREgv+egCSpU02+dBT8xIsErK0VqjdpXruZmRDuOcI=)
+      accessKey: ENC(w9ds6I7mo/cjg8mG+FIv0aW3C/Jr/fie8zik1pRmtdQ=)
+      secretKey: ENC(UDgthukdmkkXBC2Bznpfp/1cvht/LucBVuMs27XnLWBW1vJ8OE4O0vHGTz+r3Oqs6jxlop0dHmw=)
 
     s3:
       region: ap-northeast-2
