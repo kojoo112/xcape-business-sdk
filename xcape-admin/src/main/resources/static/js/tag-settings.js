@@ -11,8 +11,8 @@ const getStorageList = () => {
     });
 }
 
-const getTagList = () => {
-    axios.get('/tags').then(({data}) => {
+const getTagList = async () => {
+    await axios.get('/tags').then(({data}) => {
         if (data.resultCode === SUCCESS) {
             tagList = data.result;
         }
@@ -140,7 +140,7 @@ const convertPadlockTypeToKorean = (type) => {
 
 const getStorageItemList = () => {
     const selectedViewType = document.querySelector('input[name="viewType"]:checked').value;
-    const activeTheme = document.querySelector('button.list-group-item.active')
+    const activeTheme = document.querySelector('#selectAccordion button.list-group-item.active')
 
     if (!activeTheme) {
         return;
@@ -209,6 +209,60 @@ const getViewListByTagId = (tagId) => {
         .sort((a, b) => a.orders - b.orders);
 }
 
+const bindSelectTagList = () => {
+    const {themeId} = document.querySelector('#selectAccordion button.list-group-item.active').dataset;
+    const tagListByThemeId = getTagListByThemeId(themeId);
+
+    const tagOptionTemplate = document.querySelector('#tagOptionsTemplate').innerHTML;
+
+    let tagOptionListHtml = document.querySelector('#defaultSelect').innerHTML
+    tagListByThemeId.forEach((tag) => {
+        tagOptionListHtml += interpolate(tagOptionTemplate, {id: tag.id, name: tag.name});
+    });
+
+    document.querySelector('#tagSelect').innerHTML = tagOptionListHtml;
+    document.querySelector('#targetTagId').innerHTML = tagOptionListHtml;
+
+}
+
+const bindDeleteTagList = () => {
+    const {themeId} = document.querySelector('#deleteAccordion button.list-group-item.active').dataset;
+    const tagListByThemeId = getTagListByThemeId(themeId);
+
+    const deleteTagTemplate = document.querySelector('#deleteTagTemplate').innerHTML;
+
+    let deleteTagListHtml = '';
+
+    tagListByThemeId.forEach((tag) => {
+        deleteTagListHtml += interpolate(deleteTagTemplate, {id: tag.id, name: tag.name})
+    });
+
+    const deleteTagListGroup = document.querySelector('#deleteTagListGroup');
+    deleteTagListGroup.innerHTML = deleteTagListHtml;
+}
+
+const deleteTagEvent = () => {
+    document.querySelectorAll('.delete-tag-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const {tagId} = e.target.dataset;
+
+            axios.delete(`/tags/${tagId}`).then((res) => {
+                const {resultCode} = res.data;
+                if (resultCode) {
+                    alert('삭제되었습니다.');
+                    getTagList().then(() => {
+                        clearTagList();
+                        bindSelectTagList();
+                        bindDeleteTagList();
+                    });
+                } else {
+                    alert('삭제실패');
+                }
+            });
+        });
+    });
+}
+
 document.querySelector('#merchantSelect').addEventListener('change', (e) => {
     const merchantId = e.target.value;
 
@@ -237,28 +291,28 @@ document.querySelector('#themeSelect').addEventListener('change', (e) => {
     }
 });
 
-document.querySelectorAll('button.list-group-item').forEach(theme => {
+document.querySelectorAll('#selectAccordion button.list-group-item').forEach(theme => {
     theme.addEventListener('click', (e) => {
         const {classList, dataset} = e.currentTarget;
 
-        document.querySelectorAll('button.list-group-item').forEach(merchant => merchant.classList.remove('active'));
+        document.querySelectorAll('#selectAccordion button.list-group-item').forEach(merchant => merchant.classList.remove('active'));
         classList.add('active');
 
-        const {themeId} = dataset;
-        const tagListByThemeId = getTagListByThemeId(themeId);
-
-        const tagOptionTemplate = document.querySelector('#tagOptionsTemplate').innerHTML;
-
-        let tagOptionListHtml = document.querySelector('#defaultSelect').innerHTML
-        tagListByThemeId.forEach((tag) => {
-            tagOptionListHtml += interpolate(tagOptionTemplate, {id: tag.id, name: tag.name});
-        });
-
-        document.querySelector('#tagSelect').innerHTML = tagOptionListHtml;
-        document.querySelector('#targetTagId').innerHTML = tagOptionListHtml;
-
+        bindSelectTagList();
         getStorageItemList();
         clearTagList();
+    });
+});
+
+document.querySelectorAll('#deleteAccordion button.list-group-item').forEach(theme => {
+    theme.addEventListener('click', (e) => {
+        const {classList, dataset} = e.currentTarget;
+
+        document.querySelectorAll('#deleteAccordion button.list-group-item').forEach(merchant => merchant.classList.remove('active'));
+        classList.add('active');
+
+        bindDeleteTagList();
+        deleteTagEvent();
     });
 });
 

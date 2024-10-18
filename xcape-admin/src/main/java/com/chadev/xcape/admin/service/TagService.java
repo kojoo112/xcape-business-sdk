@@ -33,4 +33,9 @@ public class TagService {
 
         tagRepository.save(newTag);
     }
+
+    @Transactional
+    public void deleteTag(Long tagId) {
+        tagRepository.deleteById(tagId);
+    }
 }

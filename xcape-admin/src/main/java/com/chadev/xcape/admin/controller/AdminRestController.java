@@ -314,4 +314,10 @@ public class AdminRestController {
 		storageService.deleteStorage(storageId);
 		return Response.success();
 	}
+
+	@DeleteMapping("/tags/{tagId}")
+	public Response<Void> deleteTag(@PathVariable Long tagId) {
+		tagService.deleteTag(tagId);
+		return Response.success();
+	}
 }
